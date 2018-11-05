@@ -1,0 +1,58 @@
+Given (unindented paragraphs):
+  abc
+  def
+  ghi
+
+  jkl
+
+Execute (at end of paragraph):
+  1
+  AssertEqual IndentedParagraphI(), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
+
+Execute (in middle of paragraph):
+  2
+  AssertEqual IndentedParagraphI(), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
+
+Execute (empty line):
+  4
+  AssertEqual IndentedParagraphI(), 0
+  AssertEqual IndentedParagraphA(), 0
+
+Execute (single line paragraph):
+  5
+  AssertEqual IndentedParagraphI(), ["V", [0, 5, 0, 0], [0, 5, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 4, 0, 0], [0, 5, 0, 0]]
+
+Given (indented paragraphs):
+  abc
+    def
+    ghi
+
+    jkl
+    
+    # The above line INTENTIONALLY contains spaces
+    mno
+    pqr
+  stu
+
+Execute (at start of block):
+  1
+  AssertEqual IndentedParagraphI(), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
+
+Execute (inside block):
+  2
+  AssertEqual IndentedParagraphI(), ["V", [0, 2, 0, 0], [0, 3, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 2, 0, 0], [0, 4, 0, 0]]
+
+Execute (inside second block):
+  5
+  AssertEqual IndentedParagraphI(), ["V", [0, 5, 0, 0], [0, 5, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 4, 0, 0], [0, 6, 0, 0]]
+
+Execute (inside third block):
+  7
+  AssertEqual IndentedParagraphI(), ["V", [0, 7, 0, 0], [0, 9, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 6, 0, 0], [0, 9, 0, 0]]

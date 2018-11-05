@@ -1,0 +1,32 @@
+Given:
+  abc
+    def
+
+    ghi
+  jkl
+
+Do:
+  2G
+  diz
+
+Expect:
+  abc
+
+    ghi
+  jkl
+
+Given:
+  abc
+    def
+
+    ghi
+  jkl
+
+Do:
+  2G
+  daz
+
+Expect:
+  abc
+    ghi
+  jkl
