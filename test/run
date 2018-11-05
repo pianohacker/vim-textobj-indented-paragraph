@@ -20,6 +20,8 @@ function run_tests {
 		return
 	fi
 
+	echo "Testing ${editor_to_test}..."
+
 	export VADER_OUTPUT_FILE=$(mktemp)
 	# The `command which` bypasses any aliases.
 	if ! $(command which $editor_to_test) -u test.vimrc '+Vader!*'; then

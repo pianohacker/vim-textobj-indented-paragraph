@@ -7,7 +7,7 @@ Given:
 
 Do:
   2G
-  diz
+  dir
 
 Expect:
   abc
@@ -24,7 +24,7 @@ Given:
 
 Do:
   2G
-  daz
+  dar
 
 Expect:
   abc
