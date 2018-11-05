@@ -1,0 +1,16 @@
+#!/bin/bash
+set -exu
+
+cd $(dirname $0)
+
+mkdir -p deps
+pushd deps
+	for dependency in kana/vim-textobj-user junegunn/vader.vim; do
+		if [[ ! -d $(basename $dependency) ]]; then
+			git clone https://github.com/$dependency
+		fi
+	done
+popd
+
+#\vim -u test.vimrc +Vader*
+\nvim -u test.vimrc +Vader*
