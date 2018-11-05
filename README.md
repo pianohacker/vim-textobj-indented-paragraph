@@ -11,10 +11,10 @@ Given the following code (with the cursor at `|`):
 
 ```
 if (condition) {
-	result = operation();|
-	if (!result) return false;
+    result = operation();|
+    if (!result) return false;
 
-	operation2();
+    operation2();
 }
 ```
 
@@ -23,7 +23,7 @@ if (condition) {
 ```
 if (condition) {
 
-	operation2();
+    operation2();
 }
 ```
 
@@ -31,7 +31,7 @@ and `dar` will result in:
 
 ```
 if (condition) {
-	operation2();
+    operation2();
 }
 ```
 
