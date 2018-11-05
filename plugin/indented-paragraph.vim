@@ -1,9 +1,9 @@
 call textobj#user#plugin('indentedparagraph', {
 \   '-': {
 \     'select-a-function': 'IndentedParagraphA',
-\     'select-a': 'az',
+\     'select-a': 'ar',
 \     'select-i-function': 'IndentedParagraphI',
-\     'select-i': 'iz',
+\     'select-i': 'ir',
 \   },
 \ })
 
