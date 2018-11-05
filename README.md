@@ -60,6 +60,6 @@ Finally, restart your editor, then install both plugins:
 
 [vundle]: https://github.com/VundleVim/Vundle.vim
 [neobundle]: https://github.com/Shougo/neobundle.vim
-[neobundle]: https://github.com/Shougo/dein.vim
+[dein]: https://github.com/Shougo/dein.vim
 [vim-plug]: https://github.com/junegunn/vim-plug
 [vim-textobj-user]: https://github.com/kana/vim-textobj-user
