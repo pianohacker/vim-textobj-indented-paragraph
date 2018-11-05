@@ -76,7 +76,7 @@ Then, add [kana/vim-textobj-user][vim-textobj-user] the same way.
 
 Finally, restart your editor, then install both plugins:
 
-- [Vundle][vundle] - `call :PluginInstall`
+- [Vundle][vundle] - `:PluginInstall`
 - [NeoBundle][neobundle] - `:NeoBundleInstall`
 - [Dein][dein] - `:call dein#install()`
 - [vim-plug][vim-plug] - `:PlugInstall`
