@@ -35,6 +35,29 @@ if (condition) {
 }
 ```
 
+Note that `dar` in a block with empty lines on both sides will leave empty
+lines behind; given:
+
+```
+if (a) {
+    b();
+
+    c();|
+
+    d();
+}
+```
+
+`dar` will result in:
+
+```
+if (a) {
+    b();
+
+    d();
+}
+```
+
 ## Dependencies
 
 - NeoVim or Vim 7.3+

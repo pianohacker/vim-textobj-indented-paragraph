@@ -50,7 +50,7 @@ Execute (inside block):
 Execute (inside second block):
   5
   AssertEqual IndentedParagraphI(), ["V", [0, 5, 0, 0], [0, 5, 0, 0]]
-  AssertEqual IndentedParagraphA(), ["V", [0, 4, 0, 0], [0, 6, 0, 0]]
+  AssertEqual IndentedParagraphA(), ["V", [0, 5, 0, 0], [0, 6, 0, 0]]
 
 Execute (inside third block):
   7

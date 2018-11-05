@@ -25,8 +25,16 @@ function! IndentedParagraph(include_surrounding_whitespace)
 	let l:end_line = s:get_last_line_matching(l:indented_match, l:base_line, l:last_line, 1)
 
 	if a:include_surrounding_whitespace
-		let l:start_line = s:get_last_line_matching(l:surrounding_match, l:start_line, 1, -1)
-		let l:end_line = s:get_last_line_matching(l:surrounding_match, l:end_line, l:last_line, 1)
+		let l:surrounding_start_line = s:get_last_line_matching(l:surrounding_match, l:start_line, 1, -1)
+		let l:surrounding_end_line = s:get_last_line_matching(l:surrounding_match, l:end_line, l:last_line, 1)
+
+		" Include EITHER the preceding or trailing empty lines, preferring the
+		" latter.
+		if l:surrounding_end_line == l:end_line
+			let l:start_line = l:surrounding_start_line
+		else
+			let l:end_line = l:surrounding_end_line
+		endif
 	endif
 
 	return ["V", [0, l:start_line, 0, 0], [0, l:end_line, 0, 0]]

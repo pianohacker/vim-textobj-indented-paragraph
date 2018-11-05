@@ -30,3 +30,23 @@ Expect:
   abc
     ghi
   jkl
+
+Given:
+  abc
+    def
+
+    ghi
+
+    jkl
+  mno
+
+Do:
+  4G
+  dar
+
+Expect:
+  abc
+    def
+
+    jkl
+  mno
