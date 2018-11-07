@@ -87,7 +87,7 @@ if (condition) {
     result = operation();
     if (!result) return false;
 
-    operation2();|
+    |operation2();
 }
 ```
 
@@ -95,7 +95,7 @@ and `g(` will move to:
 
 ```
 if (condition) {
-    result = operation();|
+    |result = operation();
     if (!result) return false;
 
     operation2();
