@@ -3,8 +3,8 @@ Before:
     return ["V", [0, a:start, 0, 0], [0, a:end, 0, 0]]
   endfunction
 
-  function! SingleLine(line)
-    return ["V", [0, a:line, 0, 0], [0, a:line, 0, 0]]
+  function! SingleChar(line, col)
+    return ["v", [0, a:line, a:col, 0], [0, a:line, a:col, 0]]
   endfunction
 
 Given (unindented paragraphs):
@@ -36,16 +36,16 @@ Execute (single line paragraph):
 
 Execute (movement):
   2
-  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
-  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
+  AssertEqual indented_paragraph#Move(1), SingleChar(5, 1)
 
   4
-  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
-  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
+  AssertEqual indented_paragraph#Move(1), SingleChar(5, 1)
 
   5
-  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
-  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
+  AssertEqual indented_paragraph#Move(1), SingleChar(5, 1)
 
 Given (indented paragraphs):
   abc
@@ -97,21 +97,21 @@ Execute (inside third block):
 
 Execute (movement):
   1
-  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
-  AssertEqual indented_paragraph#Move(1), SingleLine(2)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
+  AssertEqual indented_paragraph#Move(1), SingleChar(2, 3)
 
   2
-  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
-  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
+  AssertEqual indented_paragraph#Move(1), SingleChar(5, 3)
 
   3
-  AssertEqual indented_paragraph#Move(-1), SingleLine(2)
-  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(2, 3)
+  AssertEqual indented_paragraph#Move(1), SingleChar(5, 3)
 
   5
-  AssertEqual indented_paragraph#Move(-1), SingleLine(2)
-  AssertEqual indented_paragraph#Move(1), SingleLine(7)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(2, 3)
+  AssertEqual indented_paragraph#Move(1), SingleChar(7, 3)
 
   7
-  AssertEqual indented_paragraph#Move(-1), SingleLine(5)
-  AssertEqual indented_paragraph#Move(1), SingleLine(10)
+  AssertEqual indented_paragraph#Move(-1), SingleChar(5, 3)
+  AssertEqual indented_paragraph#Move(1), SingleChar(10, 1)

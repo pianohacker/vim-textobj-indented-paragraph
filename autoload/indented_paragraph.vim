@@ -80,25 +80,32 @@ function! indented_paragraph#Move(direction)
 
 	" If going backwards, attept to move to top of paragraph.
 	if a:direction == -1 && paragraph_boundary != base
-		return s:single_line(paragraph_boundary)
+		return s:line_start(paragraph_boundary)
 	endif
 
 	let surrounding_match = "^\\s*$"
 	let surrounding_boundary = s:last_matching(surrounding_match, paragraph_boundary, a:direction)
 
 	if surrounding_boundary == limit
-		return s:single_line(surrounding_boundary)
+		return s:line_start(surrounding_boundary)
 	endif
 
 	if a:direction == -1
-		return s:single_line(s:paragraph_boundary(surrounding_boundary - 1, -1))
+		return s:line_start(s:paragraph_boundary(surrounding_boundary - 1, -1))
 	else
-		return s:single_line(surrounding_boundary + 1)
+		return s:line_start(surrounding_boundary + 1)
 	endif
 endfunction
 
-function! s:single_line(dest)
-	return ["V", [0, a:dest, 0, 0], [0, a:dest, 0, 0]]
+function! s:line_start(dest)
+	let contents = getline(a:dest)
+	let start = match(contents, "\\S")
+
+	if start == -1
+		let start = len(contents) - 1
+	endif
+
+	return ["v", [0, a:dest, start + 1, 0], [0, a:dest, start + 1, 0]]
 endfunction
 
 function! s:paragraph_boundary(base, direction)
