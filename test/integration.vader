@@ -38,7 +38,9 @@ Given:
     ghi
 
     jkl
-  mno
+
+    mno
+  pqr
 
 Do:
   4G
@@ -49,4 +51,18 @@ Expect:
     def
 
     jkl
-  mno
+
+    mno
+  pqr
+
+Do:
+  2G
+  2dir
+
+Expect:
+  abc
+
+    jkl
+
+    mno
+  pqr
