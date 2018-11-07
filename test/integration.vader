@@ -66,3 +66,26 @@ Expect:
 
     mno
   pqr
+
+Given:
+  abc
+    def
+    ghi
+
+    jkl
+    mno
+  pqr
+
+Do:
+  1G
+  g)
+
+Then:
+  AssertEqual line('.'), 2
+
+Do:
+  3G
+  g(
+
+Then:
+  AssertEqual line('.'), 2

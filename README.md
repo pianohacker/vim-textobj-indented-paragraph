@@ -1,11 +1,20 @@
 # vim-indented-paragraph
 
-Provides text objects for a single indented paragraph.
+Provides text objects and movements for indented paragraphs.
+
+Text objects:
 
 * `ir` - current paragraph, indented same or more than current line
 * `ar` - same as above, including surrounding empty lines
 
+Movements:
+
+* `g)` - move to the next beginning of an indented paragraph
+* `g(` - move to the previous beginning of an indented paragraph
+
 ## Examples
+
+### Text Objects
 
 Given the following code (with the cursor at `|`):
 
@@ -55,6 +64,41 @@ if (a) {
     b();
 
     d();
+}
+```
+
+### Movement
+
+Given the following code (with the cursor at `|`):
+
+```
+if (condition) {
+    result = operation();
+    if (!result) return false;|
+
+    operation2();
+}
+```
+
+`g)` will move to:
+
+```
+if (condition) {
+    result = operation();
+    if (!result) return false;
+
+    operation2();|
+}
+```
+
+and `g(` will move to:
+
+```
+if (condition) {
+    result = operation();|
+    if (!result) return false;
+
+    operation2();
 }
 ```
 

@@ -1,3 +1,12 @@
+Before:
+  function! Region(start, end)
+    return ["V", [0, a:start, 0, 0], [0, a:end, 0, 0]]
+  endfunction
+
+  function! SingleLine(line)
+    return ["V", [0, a:line, 0, 0], [0, a:line, 0, 0]]
+  endfunction
+
 Given (unindented paragraphs):
   abc
   def
@@ -7,23 +16,36 @@ Given (unindented paragraphs):
 
 Execute (at end of paragraph):
   1
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(1, 3)
+  AssertEqual indented_paragraph#Select(1, 1), Region(1, 4)
 
 Execute (in middle of paragraph):
   2
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(1, 3)
+  AssertEqual indented_paragraph#Select(1, 1), Region(1, 4)
 
 Execute (empty line):
   4
-  AssertEqual IndentedParagraph(1, 0), 0
-  AssertEqual IndentedParagraph(1, 1), 0
+  AssertEqual indented_paragraph#Select(1, 0), 0
+  AssertEqual indented_paragraph#Select(1, 1), 0
 
 Execute (single line paragraph):
   5
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 5, 0, 0], [0, 5, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 4, 0, 0], [0, 5, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(5, 5)
+  AssertEqual indented_paragraph#Select(1, 1), Region(4, 5)
+
+Execute (movement):
+  2
+  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
+  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+
+  4
+  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
+  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+
+  5
+  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
+  AssertEqual indented_paragraph#Move(1), SingleLine(5)
 
 Given (indented paragraphs):
   abc
@@ -39,36 +61,57 @@ Given (indented paragraphs):
 
 Execute (at start of block):
   1
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 1, 0, 0], [0, 3, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 1, 0, 0], [0, 4, 0, 0]]
-  AssertEqual IndentedParagraph(2, 0), ["V", [0, 1, 0, 0], [0, 5, 0, 0]]
-  AssertEqual IndentedParagraph(2, 1), ["V", [0, 1, 0, 0], [0, 6, 0, 0]]
-  AssertEqual IndentedParagraph(3, 0), ["V", [0, 1, 0, 0], [0, 10, 0, 0]]
-  AssertEqual IndentedParagraph(3, 1), ["V", [0, 1, 0, 0], [0, 10, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(1, 3)
+  AssertEqual indented_paragraph#Select(1, 1), Region(1, 4)
+  AssertEqual indented_paragraph#Select(2, 0), Region(1, 5)
+  AssertEqual indented_paragraph#Select(2, 1), Region(1, 6)
+  AssertEqual indented_paragraph#Select(3, 0), Region(1, 10)
+  AssertEqual indented_paragraph#Select(3, 1), Region(1, 10)
 
 Execute (inside block):
   2
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 2, 0, 0], [0, 3, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 2, 0, 0], [0, 4, 0, 0]]
-  AssertEqual IndentedParagraph(2, 0), ["V", [0, 2, 0, 0], [0, 5, 0, 0]]
-  AssertEqual IndentedParagraph(2, 1), ["V", [0, 2, 0, 0], [0, 6, 0, 0]]
-  AssertEqual IndentedParagraph(3, 0), ["V", [0, 2, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(3, 1), ["V", [0, 2, 0, 0], [0, 9, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(2, 3)
+  AssertEqual indented_paragraph#Select(1, 1), Region(2, 4)
+  AssertEqual indented_paragraph#Select(2, 0), Region(2, 5)
+  AssertEqual indented_paragraph#Select(2, 1), Region(2, 6)
+  AssertEqual indented_paragraph#Select(3, 0), Region(2, 9)
+  AssertEqual indented_paragraph#Select(3, 1), Region(2, 9)
 
 Execute (inside second block):
   5
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 5, 0, 0], [0, 5, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 5, 0, 0], [0, 6, 0, 0]]
-  AssertEqual IndentedParagraph(2, 0), ["V", [0, 5, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(2, 1), ["V", [0, 4, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(3, 0), ["V", [0, 5, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(3, 1), ["V", [0, 4, 0, 0], [0, 9, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(5, 5)
+  AssertEqual indented_paragraph#Select(1, 1), Region(5, 6)
+  AssertEqual indented_paragraph#Select(2, 0), Region(5, 9)
+  AssertEqual indented_paragraph#Select(2, 1), Region(4, 9)
+  AssertEqual indented_paragraph#Select(3, 0), Region(5, 9)
+  AssertEqual indented_paragraph#Select(3, 1), Region(4, 9)
 
 Execute (inside third block):
   7
-  AssertEqual IndentedParagraph(1, 0), ["V", [0, 7, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(1, 1), ["V", [0, 6, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(2, 0), ["V", [0, 7, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(2, 1), ["V", [0, 6, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(3, 0), ["V", [0, 7, 0, 0], [0, 9, 0, 0]]
-  AssertEqual IndentedParagraph(3, 1), ["V", [0, 6, 0, 0], [0, 9, 0, 0]]
+  AssertEqual indented_paragraph#Select(1, 0), Region(7, 9)
+  AssertEqual indented_paragraph#Select(1, 1), Region(6, 9)
+  AssertEqual indented_paragraph#Select(2, 0), Region(7, 9)
+  AssertEqual indented_paragraph#Select(2, 1), Region(6, 9)
+  AssertEqual indented_paragraph#Select(3, 0), Region(7, 9)
+  AssertEqual indented_paragraph#Select(3, 1), Region(6, 9)
+
+Execute (movement):
+  1
+  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
+  AssertEqual indented_paragraph#Move(1), SingleLine(2)
+
+  2
+  AssertEqual indented_paragraph#Move(-1), SingleLine(1)
+  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+
+  3
+  AssertEqual indented_paragraph#Move(-1), SingleLine(2)
+  AssertEqual indented_paragraph#Move(1), SingleLine(5)
+
+  5
+  AssertEqual indented_paragraph#Move(-1), SingleLine(2)
+  AssertEqual indented_paragraph#Move(1), SingleLine(7)
+
+  7
+  AssertEqual indented_paragraph#Move(-1), SingleLine(5)
+  AssertEqual indented_paragraph#Move(1), SingleLine(10)
