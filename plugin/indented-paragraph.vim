@@ -8,54 +8,54 @@ call textobj#user#plugin('indentedparagraph', {
 \ })
 
 function! IndentedParagraph(count, include_surrounding_whitespace)
-	let l:base_line = line(".")
+	let base_line = line(".")
 
-	if match(getline(l:base_line), "^\\s*\\S") == -1
+	if match(getline(base_line), "^\\s*\\S") == -1
 		" Line is empty (aside for whitespace), do nothing
 		return 0
 	endif
 
-	let l:base_indentation = matchstr(getline(l:base_line), "^\\s*")
-	let l:indented_match = "^" . l:base_indentation . "\\s*\\S"
-	let l:surrounding_match = "^\\s*$"
+	let base_indentation = matchstr(getline(base_line), "^\\s*")
+	let indented_match = "^" . base_indentation . "\\s*\\S"
+	let surrounding_match = "^\\s*$"
 
-	let l:last_line = line("$")
+	let last_line = line("$")
 
 	" First, expand from the start line to all lines in paragraph with matching indentation
-	let l:start_line = s:get_last_line_matching(l:indented_match, l:base_line, 1, -1)
-	let l:end_line = s:get_last_line_matching(l:indented_match, l:base_line, l:last_line, 1)
+	let start_line = s:get_last_line_matching(indented_match, base_line, 1, -1)
+	let end_line = s:get_last_line_matching(indented_match, base_line, last_line, 1)
 
 	" Then, for each repeat count past 1, expand through empty lines then lines with matching
 	" indentation
 	for i in range(a:count - 1)
-		let l:end_line = s:get_last_line_matching(l:surrounding_match, l:end_line, l:last_line, 1)
-		let l:end_line = s:get_last_line_matching(l:indented_match, l:end_line, l:last_line, 1)
+		let end_line = s:get_last_line_matching(surrounding_match, end_line, last_line, 1)
+		let end_line = s:get_last_line_matching(indented_match, end_line, last_line, 1)
 	endfor
 
 	if a:include_surrounding_whitespace
-		let l:surrounding_start_line = s:get_last_line_matching(l:surrounding_match, l:start_line, 1, -1)
-		let l:surrounding_end_line = s:get_last_line_matching(l:surrounding_match, l:end_line, l:last_line, 1)
+		let surrounding_start_line = s:get_last_line_matching(surrounding_match, start_line, 1, -1)
+		let surrounding_end_line = s:get_last_line_matching(surrounding_match, end_line, last_line, 1)
 
 		" Include EITHER the preceding or trailing empty lines, preferring the
 		" latter.
-		if l:surrounding_end_line == l:end_line
-			let l:start_line = l:surrounding_start_line
+		if surrounding_end_line == end_line
+			let start_line = surrounding_start_line
 		else
-			let l:end_line = l:surrounding_end_line
+			let end_line = surrounding_end_line
 		endif
 	endif
 
-	return ["V", [0, l:start_line, 0, 0], [0, l:end_line, 0, 0]]
+	return ["V", [0, start_line, 0, 0], [0, end_line, 0, 0]]
 endfunction
 
 function! s:get_last_line_matching(pattern, start, limit, direction)
-	let l:line = a:start
+	let line = a:start
 
-	while l:line != a:limit && match(getline(l:line + a:direction), a:pattern) != -1
-		let l:line += a:direction
+	while line != a:limit && match(getline(line + a:direction), a:pattern) != -1
+		let line += a:direction
 	endwhile
 
-	return l:line
+	return line
 endfunction
 
 function! IndentedParagraphI()
