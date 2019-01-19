@@ -83,7 +83,11 @@ function! indented_paragraph#Move(direction)
 		return s:line_start(paragraph_boundary)
 	endif
 
+	let [base_indentation, found] = s:line_indentation(base)
 	let surrounding_match = "^\\s*$"
+	if found != -1
+		let surrounding_match .= "\\|^" . base_indentation . "\\s\\+\\S"
+	endif
 	let surrounding_boundary = s:last_matching(surrounding_match, paragraph_boundary, a:direction)
 
 	if surrounding_boundary == limit
@@ -108,13 +112,19 @@ function! s:line_start(dest)
 	return ["v", [0, a:dest, start + 1, 0], [0, a:dest, start + 1, 0]]
 endfunction
 
+function! s:line_indentation(line)
+	let [indentation, found, _] = matchstrpos(getline(a:line), "^\\s*\\ze\\S")
+
+	return [indentation, found]
+endfunction
+
 function! s:paragraph_boundary(base, direction)
 	let line = a:base
-	let [base_indentation, found, _] = matchstrpos(getline(a:base), "^\\s*\\ze\\S")
+	let [base_indentation, found] = s:line_indentation(a:base)
 
 	while found == -1
 		let line += a:direction
-		let [base_indentation, found, _] = matchstrpos(getline(line), "^\\s*\\ze\\S")
+		let [base_indentation, found] = s:line_indentation(line)
 	endwhile
 
 	let same_indented_match = "^" . base_indentation . "\\S"

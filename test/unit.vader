@@ -98,7 +98,7 @@ Execute (inside third block):
 Execute (movement):
   1
   AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
-  AssertEqual indented_paragraph#Move(1), SingleChar(2, 3)
+  AssertEqual indented_paragraph#Move(1), SingleChar(10, 1)
 
   2
   AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
@@ -114,4 +114,8 @@ Execute (movement):
 
   7
   AssertEqual indented_paragraph#Move(-1), SingleChar(5, 3)
+  AssertEqual indented_paragraph#Move(1), SingleChar(10, 1)
+
+  10
+  AssertEqual indented_paragraph#Move(-1), SingleChar(1, 1)
   AssertEqual indented_paragraph#Move(1), SingleChar(10, 1)

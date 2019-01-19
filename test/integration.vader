@@ -81,7 +81,7 @@ Do:
   g)
 
 Then:
-  AssertEqual line('.'), 2
+  AssertEqual line('.'), 7
 
 Do:
   3G
