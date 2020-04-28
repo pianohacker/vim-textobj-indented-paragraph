@@ -1,4 +1,4 @@
-# vim-indented-paragraph
+# vim-textobj-indented-paragraph
 
 Provides text objects and movements for indented paragraphs.
 
@@ -111,10 +111,10 @@ if (condition) {
 
 First, add the necessary line to your `vimrc`:
 
-- [Vundle][vundle] - `Bundle 'pianohacker/vim-indented-paragraph'`
-- [NeoBundle][neobundle] - `NeoBundle 'pianohacker/vim-indented-paragraph'`
-- [dein][dein] - `call dein#add('pianohacker/vim-indented-paragraph')`
-- [vim-plug][vim-plug] - `Plug 'pianohacker/vim-indented-paragraph'`
+- [Vundle][vundle] - `Bundle 'pianohacker/vim-textobj-indented-paragraph'`
+- [NeoBundle][neobundle] - `NeoBundle 'pianohacker/vim-textobj-indented-paragraph'`
+- [dein][dein] - `call dein#add('pianohacker/vim-textobj-indented-paragraph')`
+- [vim-plug][vim-plug] - `Plug 'pianohacker/vim-textobj-indented-paragraph'`
 
 Then, add [kana/vim-textobj-user][vim-textobj-user] the same way.
 
